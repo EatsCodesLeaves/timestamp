@@ -28,7 +28,7 @@ app.get("/api/hello", function (req, res) {
 // with a unix key that is a Unix timestamp of the input date in milliseconds
 app.use("/api/:date", function (req, res) {
   req.time = new Date().toString()
-  res.json({"time": req.time});
+   res.json({"time": req.time});
 });
 
 
