@@ -28,13 +28,13 @@ app.get("/api/hello", function (req, res) {
 // with a unix key that is a Unix timestamp of the input date in milliseconds
 app.use("/api/:date", function (req, res) {
   if (new Date(req.params.date*1000) != "Invalid Date" && /^[0-9]*$/.test(req.params.date)) {
-    console.log(new Date(req.params.date));
-    const convertDate = new Date(req.params.date*1000);
+    const convertDate = new Date(parseInt(req.params.date));
+    console.log(`${parseInt(req.params.date)} converts to ${convertDate}`);
     const utcDate = convertDate.toUTCString();
     res.json({unix: req.params.date, utc: utcDate});
   } else if (new Date(req.params.date) != "Invalid Date") {
-    console.log(new Date(req.params.date));
     const convertDate = new Date(req.params.date);
+    console.log(`${req.params.date} converts to ${convertDate}`);
     const unixDate = convertDate.getTime();
     const utcDate = convertDate.toUTCString();
     res.json({unix: unixDate, utc: utcDate});
@@ -44,6 +44,7 @@ app.use("/api/:date", function (req, res) {
 });
 
 app.use("/api/", function (req, res) {
+  console.log("current Date chosen");
   const currDate = new Date();
   const unixDate = currDate.getTime();
   const utcDate = currDate.toUTCString();
