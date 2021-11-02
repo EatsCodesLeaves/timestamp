@@ -27,12 +27,31 @@ app.get("/api/hello", function (req, res) {
 // A request to /api/:date? with a valid date should return a JSON object
 // with a unix key that is a Unix timestamp of the input date in milliseconds
 app.use("/api/:date", function (req, res) {
-  const unixDate = new Date(req.params.date).getTime()
-  res.json({unix: unixDate});
+  if (new Date(req.params.date*1000) != "Invalid Date" && /^[0-9]*$/.test(req.params.date)) {
+    console.log(new Date(req.params.date));
+    const convertDate = new Date(req.params.date*1000);
+    const utcDate = convertDate.toUTCString();
+    res.json({unix: req.params.date, utc: utcDate});
+  } else if (new Date(req.params.date) != "Invalid Date") {
+    console.log(new Date(req.params.date));
+    const convertDate = new Date(req.params.date);
+    const unixDate = convertDate.getTime();
+    const utcDate = convertDate.toUTCString();
+    res.json({unix: unixDate, utc: utcDate});
+  } else {
+    res.json({ error : "Invalid Date" });
+  }
+});
+
+app.use("/api/", function (req, res) {
+  const currDate = new Date();
+  const unixDate = currDate.getTime();
+  const utcDate = currDate.toUTCString();
+  res.json({unix: unixDate, utc: utcDate});
 });
 
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
