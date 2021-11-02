@@ -27,8 +27,8 @@ app.get("/api/hello", function (req, res) {
 // A request to /api/:date? with a valid date should return a JSON object
 // with a unix key that is a Unix timestamp of the input date in milliseconds
 app.use("/api/:date?", function (req, res) {
-  req.params.date = Date('2012.08.10').getTime()/1000
-  res.json({unix: req.time});
+  const unixDate = req.params.date.getTime()/1000
+  res.json({unix: unixDate});
 });
 
 
