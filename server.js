@@ -24,6 +24,12 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// A request to /api/:date? with a valid date should return a JSON object
+// with a unix key that is a Unix timestamp of the input date in milliseconds
+app.use("/api/:date", function (req, res) {
+  req.time = new Date().toString()
+  res.json({"time": req.time});
+});
 
 
 // listen for requests :)
